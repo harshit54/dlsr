@@ -8,20 +8,23 @@ app = Flask(__name__)
 CORS(app)
 app.run(use_reloader=False)
 
-@app.route('/', methods=["POST", "GET"])
+@app.route('/', methods=["POST", "GET", "PUT"])
 def call():
     file = request.files['image']
-    print(file.filename)
-    path = os.path.join("..\\", 'original.jpg')
-    if os.path.exists(path):
-        os.remove(path)
-    file.save(path)
-    hrFileName, inputSize, outputSize = superScaler('original.jpg', path)
+    extension = os.path.splitext(file.filename)[1]
+    print("\n\nInput File Name:\n\n", file.filename)
+    os.chdir("C:\\Users\\17038\\Documents\\react-sample\\bank-data\\public\\images\\")
+    inputFileName = 'input' + extension
+    if os.path.exists('./' + inputFileName):
+        os.remove('./' + inputFileName)
+    file.save('./' + inputFileName)
+    inputSize, outputSize = superScaler(inputFileName)
 
     output = {
-        'input-size-x' : inputSize[0],
-        'input-size-y' : inputSize[1],
-        'output-size-x' : outputSize[0],
-        'output-size-y' : outputSize[1],
+        'input_filename' : inputFileName,
+        'input_size_x' : inputSize[0],
+        'input_size_y' : inputSize[1],
+        'output_size_x' : outputSize[0],
+        'output_size_y' : outputSize[1],
     }
     return json.dumps(output)

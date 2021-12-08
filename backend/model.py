@@ -40,14 +40,17 @@ def save_image(image, filename):
     print("Saved as %s.jpg" % filename)
 
 # Declaring Constants
-def superScaler(filename, path):
-    IMAGE_PATH = path
+def superScaler(filename):
 
-    hr_image = preprocess_image(IMAGE_PATH)
+    hr_image = preprocess_image(filename)
 
     model = hub.load(SAVED_MODEL_PATH)
     fake_image = model(hr_image)
     fake_image = tf.squeeze(fake_image)
 
-    save_image(tf.squeeze(fake_image), filename="HR-"+filename)
-    return "HR-"+filename
+    save_image(tf.squeeze(fake_image), filename="output")
+    
+    inputImage = Image.open(filename)
+    outputImage = Image.open("output.jpg")
+    
+    return inputImage.size, outputImage.size
