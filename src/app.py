@@ -16,12 +16,9 @@ def call():
     if os.path.exists(path):
         os.remove(path)
     file.save(path)
-    hrFileName, inputSize, outputSize = superScaler('original.jpg', path)
+    hrFileName = superScaler('original.jpg', path)
 
     output = {
-        'input-size-x' : inputSize[0],
-        'input-size-y' : inputSize[1],
-        'output-size-x' : outputSize[0],
-        'output-size-y' : outputSize[1],
+        'filename' : "./bank-data/images/" + hrFileName
     }
     return json.dumps(output)
