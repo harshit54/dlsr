@@ -13,7 +13,7 @@ def call():
     file = request.files['image']
     extension = os.path.splitext(file.filename)[1]
     print("\n\nInput File Name:\n\n", file.filename)
-    os.chdir("C:\\Users\\17038\\Documents\\react-sample\\bank-data\\public\\images\\")
+    os.chdir(os.environ.get('IMAGES_FOLDER'))
     inputFileName = 'input' + extension
     if os.path.exists('./' + inputFileName):
         os.remove('./' + inputFileName)
